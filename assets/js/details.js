@@ -1,6 +1,6 @@
 let url = "https://striveschool-api.herokuapp.com/api/product/";
 
-const parameters = new URLSearchParams(window.location.search);//mi serve per prendere l'id dell'oggetto dall'url
+const parameters = new URLSearchParams(window.location.search);
 
 const productId = paramemters.get("_id")
 console.log(productId)
