@@ -17,17 +17,21 @@ window.addEventListener("DOMContentLoaded", function() {
           }) .then(products => {
             products.forEach(product => { //colonne
               const column = document.createElement("div");
-              column.className = "column-md-4";
+              column.className = "col-lg-3 d-flex justify-content-center"
+              //column.className = "column-md-4";
               row.appendChild(column);
               const card = document.createElement("div");
+              //card.style = "width: 25";
               card.classList.add("card");
-              card.classList.add("mb-4");
+              card.classList.add("mb-2");
               column.appendChild(card);
     //sezione immagini card
               const img = document.createElement("img");
-              img.className = "img-fluid card-img-top w-25";
+              img.className = "img-fluid card-img-top";
+              //img.style = "width: 20%"
               img.setAttribute("src", product.imageUrl);
               img.setAttribute("alt", product.alt);
+
     
               card.appendChild(img);
               const cardBody = document.createElement("div");
@@ -43,7 +47,7 @@ window.addEventListener("DOMContentLoaded", function() {
               cardBody.appendChild(brandName);
               const description = document.createElement("p");
               description.className = "card-text";
-              description.innerText = `Descrizione: ${product.brand}`;
+              description.innerText = `Descrizione: ${product.description}`;
               const priceBadge = document.createElement("p");
               priceBadge.className = "card-text text-dark";
               priceBadge.innerText = `Prezzo: ${product.price}`;
