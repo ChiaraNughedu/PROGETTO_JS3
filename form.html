@@ -18,11 +18,12 @@
             </div>
           </nav>
     </header>
-    <main>
+    <main> 
+        <div id="alertContainer"></div>
         <div class="row justify-content-center">
           <div class="col-md-6 border-bottom mt-4 mb-3">
             <h2 class="text-dark fw-bolder mb-3">Add Product</h2>
-            
+
             <form id="insertProduct">
               <div class="mb-3"> 
                 <label for="prodName">Nome Prodotto</label>
@@ -32,10 +33,7 @@
                 <label for="brandName">Brand</label>
                 <input type="text" class="form-control mt-2" id="brandName" placeholder="Brand" />
               </div>
-              <div class="mb-3">
-                <label for="descriptionText">Descrizione</label>
-                <input type="text" class="form-control mt-2" id="descriptionText" placeholder="Inserisci una descrizione" />
-              </div>
+              
               <div class="mb-3">
                 <label for="imageUrl">URL Immagine</label>
                 <input type="text" class="form-control mt-2" id="imageUrl" placeholder="URL Immagine" />
@@ -43,11 +41,15 @@
               <div class="mb-3">
                 <label for="insertPrice">Prezzo</label>
                 <input type="text" class="form-control mt-2" id="insertPrice" placeholder="0" />
-                
               </div>
-              <button type="submit" id="save" class="btn btn-success">Save</button>
-              <button type="reset" id="reset" class="btn btn-secondary">Reset</button>
-              <button type="button" id="delete" class="btn d-none">Delete</button>
+              <div class="mb-3">
+                <label for="descriptionText">Descrizione</label>
+                <input type="text" class="form-control mt-2" id="descriptionText" placeholder="Inserisci una descrizione" />
+              </div>
+
+              <button type="submit" id="btnSave" class="btn btn-success">Save</button>
+              <button type="reset" id="btnReset" class="btn btn-secondary">Reset</button>
+              <button type="button" id="btnDelete" class="btn d-none">Delete</button>
             </form>
           </div>
         </div>
@@ -59,7 +61,7 @@
 
 
 
-    <script src="assets/js/homepage.js"> </script>
+    <script src="assets/js/form.js"> </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </script>
 </body>

@@ -5,7 +5,8 @@ const row = document.getElementById("productRow");
 window.addEventListener("DOMContentLoaded", function() {
     fetch( "https://striveschool-api.herokuapp.com/api/product/", {
         headers: {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMGI1YWQyMjA3MTAwMTVkZTJmNzkiLCJpYXQiOjE3MzQwODU0NjYsImV4cCI6MTczNTI5NTA2Nn0.oSWXwV2wZVbfO9DZlbq4fyfBYxuCD_NaLkmUcgvo7Aw"
+        Authorization: 
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMGI1YWQyMjA3MTAwMTVkZTJmNzkiLCJpYXQiOjE3MzQwODU0NjYsImV4cCI6MTczNTI5NTA2Nn0.oSWXwV2wZVbfO9DZlbq4fyfBYxuCD_NaLkmUcgvo7Aw"
         }
         }) .then(resp => {
             if (resp.ok) {
@@ -24,9 +25,8 @@ window.addEventListener("DOMContentLoaded", function() {
               column.appendChild(card);
     //sezione immagini card
               const img = document.createElement("img");
-              img.className = "bd-placeholder-img card-img-top object-fit-cover";
+              img.className = "img-fluid card-img-top w-25";
               img.setAttribute("src", product.imageUrl);
-              img.style.height = "25vh";
               img.setAttribute("alt", product.alt);
     
               card.appendChild(img);
