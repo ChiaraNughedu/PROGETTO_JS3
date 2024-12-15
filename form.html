@@ -18,48 +18,43 @@
             </div>
           </nav>
     </header>
-    <main> 
-        <div id="alertContainer"></div>
-        <div class="row justify-content-center">
-          <div class="col-md-6 border-bottom mt-4 mb-3">
-            <h2 class="text-dark fw-bolder mb-3">Add Product</h2>
+   <main>
+    <div id="resultContainer" class="text-dark rounded-2">
+      <div id="alertContainer" class="text-center">
+        <h2 class=" fw-bolder">Edit Product</h2>
+      </div>
+      <div>
+      <form id="productForm" class="text-center" >
+        <input type="hidden" id="productId"> <!-- ID del prodotto nascosto per inviare la richiesta di aggiornamento -->
+  
+        <label for="name">Nome del prodotto</label><br>
+        <input type="text" id="name" name="name" class="mb-3" required><br>
 
-            <form id="insertProduct">
-              <div class="mb-3"> 
-                <label for="prodName">Nome Prodotto</label>
-                <input type="text" class="form-control mt-2" id="prodName" placeholder="Nome Prodotto" />
-              </div>
-               <div class="mb-3">
-                <label for="brandName">Brand</label>
-                <input type="text" class="form-control mt-2" id="brandName" placeholder="Brand" />
-              </div>
-              
-              <div class="mb-3">
-                <label for="imageUrl">URL Immagine</label>
-                <input type="text" class="form-control mt-2" id="imageUrl" placeholder="URL Immagine" />
-              </div>
-              <div class="mb-3">
-                <label for="insertPrice">Prezzo</label>
-                <input type="text" class="form-control mt-2" id="insertPrice" placeholder="0" />
-              </div>
-              <div class="mb-3">
-                <label for="descriptionText">Descrizione</label>
-                <input type="text" class="form-control mt-2" id="descriptionText" placeholder="Inserisci una descrizione" />
-              </div>
+        <label for="brand">Brand</label><br>
+        <input type="text" id="brand" name="brand" class="mb-3" required><br>
+  
+        <label for="imageUrl">URL Immagine:</label><br>
+        <input type="url" id="imageUrl" name="imageUrl" class="mb-3" required><br>
+  
+        <label for="price">Prezzo</label><br>
+        <input type="number" id="price" name="price" class="mb-3" required><br>
+        
+        <label for="description">Descrizione Prodotto</label><br>
+        <input type="text" id="description" name="description" class="mb-3" required><br>
 
-              <button type="submit" id="btnSave" class="btn btn-success">Save</button>
-              <button type="reset" id="btnReset" class="btn btn-secondary">Reset</button>
-              <button type="button" id="btnDelete" class="btn d-none">Delete</button>
-            </form>
-          </div>
-        </div>
-      </main>
+
+        <button type="button" id="deleteButton" class="btn btn-danger m-3">Elimina Prodotto</button>
+        <button type="submit" class="btn btn-secondary bg-info m-1">Salva Modifiche</button>
+        <button type="button" id="resetButton" class="btn btn-secondary bg-warning m-1">Reset</button>
+       
+      </form>
+    </div>
   
 
+    <div id="result" class="text-success mt-3"></div>
 
-
-
-
+   </main>
+  
 
     <script src="assets/js/form.js"> </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

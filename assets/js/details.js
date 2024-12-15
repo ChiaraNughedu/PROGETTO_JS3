@@ -1,16 +1,19 @@
-let url = "https://striveschool-api.herokuapp.com/api/product/";
+const accessKey =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMGI1YWQyMjA3MTAwMTVkZTJmNzkiLCJpYXQiOjE3MzQwODU0NjYsImV4cCI6MTczNTI5NTA2Nn0.oSWXwV2wZVbfO9DZlbq4fyfBYxuCD_NaLkmUcgvo7Aw";
 
-const parameters = new URLSearchParams(window.location.search);
+const endPoint = "https://striveschool-api.herokuapp.com/api/product/";
 
-const productId = paramemters.get("_id")
+const parameters = new URLSearchParams(window.location.search);//mi serve per prendere l'id dell'oggetto dall'url
+
+const productId = params.get("id")
 console.log(productId)
 
 const productDetails = document.getElementById("productDetails");
 
 function loadDetails() {
-    fetch(`${url}${productId}`, {
+    fetch(`${endPoint}${productId}`, {
         headers: {
-            "Authorization" : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMGI1YWQyMjA3MTAwMTVkZTJmNzkiLCJpYXQiOjE3MzQwODU0NjYsImV4cCI6MTczNTI5NTA2Nn0.oSWXwV2wZVbfO9DZlbq4fyfBYxuCD_NaLkmUcgvo7Aw"
+            "Authorization" : `Bearer ${accessKey}`
         }
     })
     .then(response => {

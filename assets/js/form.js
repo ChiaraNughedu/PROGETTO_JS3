@@ -1,110 +1,125 @@
-let url = "https://striveschool-api.herokuapp.com/api/product/";
+const accessKey =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMGI1YWQyMjA3MTAwMTVkZTJmNzkiLCJpYXQiOjE3MzQwODU0NjYsImV4cCI6MTczNTI5NTA2Nn0.oSWXwV2wZVbfO9DZlbq4fyfBYxuCD_NaLkmUcgvo7Aw";
+
+const endPoint = "https://striveschool-api.herokuapp.com/api/product/";
 
 const parameters = new URLSearchParams(window.location.search);
-const productId = parameters.get("_id");
+const productId = parameters.get("id");
+
 
 if (productId) {
-  fetch(`${url}${productId}`, {
+  
+  //se productId ottiene un valore, con questo blocco di codice potrò modificare un oggetto già esistente
+  fetch(`${endPoint}${productId}`, {
     headers: {
-      Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMGI1YWQyMjA3MTAwMTVkZTJmNzkiLCJpYXQiOjE3MzQwODU0NjYsImV4cCI6MTczNTI5NTA2Nn0.oSWXwV2wZVbfO9DZlbq4fyfBYxuCD_NaLkmUcgvo7Aw",
-    },
+      "Authorization": `Bearer ${accessKey}`,
+    }
   })
-    .then((response) => {
+  .then(response => {
+    if(response.ok){
+    return response.json();
+}else {
+    throw new Error("Errore durante l'invio del prodotto");
+  }
+})
+    .then(product => {
+      document.getElementById("name").value = product.name;
+      document.getElementById("description").value = product.description;
+      document.getElementById("brand").value = product.brand;
+      document.getElementById("imageUrl").value = product.imageUrl;
+      document.getElementById("price").value = product.price;
+    })
+    .catch(error => console.error("Errore di caricamento del prodotto:", error));
+}
+
+//verrà eseguito ogni volta che l'utente invia il form
+document.getElementById("productForm").addEventListener("submit", function (event) {
+  event.preventDefault();  //evita il refresh della pagina
+
+
+  //raccolta dei dati dal form per "montare l'oggetto productData sotto"
+  const name = document.getElementById("name").value;
+  const brand = document.getElementById("brand").value;
+  const imageUrl = document.getElementById("imageUrl").value;
+  const price = parseFloat(document.getElementById("price").value);
+  const description = document.getElementById("description").value;
+  const productData = { name, description, brand, imageUrl, price };
+
+  let requestMethod = "POST";  
+  let requestUrl = endPoint; 
+
+  //se non è presente una id la richiesta utilizzerà il metodo "POST" ossia il predefinito in questo caso
+  //se trova un id invece utilizzerà il metodo "PUT" concatenando nella url il productId con la quale potrò arrivare all'oggetto
+  if (productId) {
+    requestMethod = "PUT"; 
+    requestUrl = `${endPoint}${productId}`;  
+  }
+
+  //richiesta http
+  fetch(requestUrl, {
+    method: requestMethod,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessKey}`,
+    },
+    //il corpo di body conterrà i dati dell'oggetto in formato json
+    body: JSON.stringify(productData)
+  })
+  //controllo della richiesta
+    .then(response => {
       if (response.ok) {
         return response.json();
       } else {
         throw new Error("Errore durante l'invio del prodotto");
       }
     })
-    .then((product) => {
-      document.getElementById("prodName").value = product.name;
-      document.getElementById("brandName").value = product.brand;
-      document.getElementById("imageUrl").value = product.imageUrl;
-      document.getElementById("insertPrice").value = product.price;
-      document.getElementById("descriptionText").value = product.description;
+    .then(data => {
+      //arrow function per la modifica del messaggio in base al valore/non valore di productId
+      const action = productId ? "Modificato" : "Aggiunto";  
+      document.getElementById("result").innerHTML = `
+        <p>Prodotto ${action} con successo! ID: ${data._id}</p>
+      `;
+     //reindirizzo alla pagina index 
+    window.location.href = "./homepage.html";  
     })
-    .catch((error) =>
-      console.error("Errore nel caricamento del prodotto:", error)
-    );
-}
+    .catch(err => console.log(err));
+});
 
-//verrà eseguito ogni volta che l'utente invia il form
-document
-  .getElementById("insertProduct")
-  .addEventListener("submit", function (event) {
-    event.preventDefault(); //evita il refresh della pagina
+//aggiunge gestore evento click sul button delete
+document.getElementById("deleteButton").addEventListener("click", function () {
 
-    //raccolta dei dati dal form per "montare l'oggetto productData sotto"
-    const name = document.getElementById("prodName").value;
-    const brand = document.getElementById("brandName").value;
-    const imageUrl = document.getElementById("imageUrl").value;
-    const price = parseFloat(document.getElementById("insertPrice").value);
-    const description = document.getElementById("descriptionText").value;
-    const productData = { name, brand, imageUrl, price, description };
-
-    //let requestMethod = "POST";
-    let requestUrl = url;
-
-    if (productId) {
-      requestMethod = "PUT";
-      requestUrl = `${url}${productId}`;
-    }
-
-    fetch(`${url}${productId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMGI1YWQyMjA3MTAwMTVkZTJmNzkiLCJpYXQiOjE3MzQwODU0NjYsImV4cCI6MTczNTI5NTA2Nn0.oSWXwV2wZVbfO9DZlbq4fyfBYxuCD_NaLkmUcgvo7Aw",
-      },
-      body: JSON.stringify(productData),
-    })
-      
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Errore nell'invio del prodotto");
-        }
-      })
-      .then((data) => {
-        const action = productId ? "Modificato" : "Aggiunto";
-        document.getElementById("result").innerHTML = `<p>Prodotto ${action} con successo! ID: ${data._id}</p>`;
-        window.location.href = "homepage.html";
-      })
-      .catch((err) => console.log(err));
-  });
-
-document.getElementById("btnDelete").addEventListener("click", function () {
+  //verifica l'esistenza dell'oggetto dato il suo id, se non esiste procede con l'alert
   if (!productId) {
-    showAlert("Nessun prodotto selezionato");
+    
+    showAlert("Nessun prodotto selezionato", "danger");
     return;
   }
 
-
-  fetch(`${url}${productId}`, {
+  //fetch con il metodo "DELETE"
+  fetch(`${endPoint}${productId}`, {
     method: "DELETE",
     headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMGI1YWQyMjA3MTAwMTVkZTJmNzkiLCJpYXQiOjE3MzQwODU0NjYsImV4cCI6MTczNTI5NTA2Nn0.oSWXwV2wZVbfO9DZlbq4fyfBYxuCD_NaLkmUcgvo7Aw",
+      "Authorization": `Bearer ${accessKey}`,
     },
   })
-    .then((response) => {
+    .then(response => {
       if (response.ok) {
-        showAlert("Prodotto eliminato con successo!", "success");
+        
+        showAlert("Prodotto eliminato", "success");
         setTimeout(() => {
-          window.location.href = "homepage.html";
+          window.location.href = "./homepage.html"; 
         }, 2000);
       } else {
-        throw new Error("Errore durante l'eliminazione del prodotto");
+        throw new Error("Non è stato possibile eliminare il prodotto");
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.error("Errore:", err);
-      showAlert("Errore durante l'eliminazione del prodotto!", "danger");
+      showAlert("Non è stato possibile eliminare il prodotto", "danger");
     });
 });
 
+//Funzione per la gestione degli alert - Message(il messaggio che voglio che venga inserito) - type (il tipo di alert)
 function showAlert(message, type) {
   const alertContainer = document.getElementById("alertContainer");
   alertContainer.innerHTML = `

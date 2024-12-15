@@ -1,84 +1,51 @@
-const productList = document.getElementById("productList");
-const row = document.getElementById("productRow");
+const accessKey =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMGI1YWQyMjA3MTAwMTVkZTJmNzkiLCJpYXQiOjE3MzQwODU0NjYsImV4cCI6MTczNTI5NTA2Nn0.oSWXwV2wZVbfO9DZlbq4fyfBYxuCD_NaLkmUcgvo7Aw";
 
+const endPoint = "https://striveschool-api.herokuapp.com/api/product/";
 
-window.addEventListener("DOMContentLoaded", function() {
-    fetch( "https://striveschool-api.herokuapp.com/api/product/", {
-        headers: {
-        Authorization: 
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVjMGI1YWQyMjA3MTAwMTVkZTJmNzkiLCJpYXQiOjE3MzQwODU0NjYsImV4cCI6MTczNTI5NTA2Nn0.oSWXwV2wZVbfO9DZlbq4fyfBYxuCD_NaLkmUcgvo7Aw"
-        }
-        }) .then(resp => {
-            if (resp.ok) {
-              return resp.json();
-            } else {
-              throw new Error("Errore della fetch");
-            }
-          }) .then(products => {
-            products.forEach(product => { //colonne
-              const column = document.createElement("div");
-              column.className = "col-lg-3 d-flex justify-content-center"
-              //column.className = "column-md-4";
-              row.appendChild(column);
-              const card = document.createElement("div");
-              //card.style = "width: 25";
-              card.classList.add("card");
-              card.classList.add("mb-2");
-              column.appendChild(card);
-    //sezione immagini card
-              const img = document.createElement("img");
-              img.className = "img-fluid card-img-top";
-              //img.style = "width: 20%"
-              img.setAttribute("src", product.imageUrl);
-              img.setAttribute("alt", product.alt);
+const cardBox = document.getElementById("cardBox");
+const contentRow = document.getElementById("contentRow");
 
-    
-              card.appendChild(img);
-              const cardBody = document.createElement("div");
-              cardBody.className = "card-body";
-              card.appendChild(cardBody);
-              const cardTitle = document.createElement("h4");
-              cardTitle.className = "card-title";
-              cardTitle.innerText = product.name;
-              cardBody.appendChild(cardTitle);
-              const brandName = document.createElement("p");
-              brandName.className = "lead card-text";
-              brandName.innerText = `Brand: ${product.brand}`;
-              cardBody.appendChild(brandName);
-              const description = document.createElement("p");
-              description.className = "card-text";
-              description.innerText = `Descrizione: ${product.description}`;
-              const priceBadge = document.createElement("p");
-              priceBadge.className = "card-text text-dark";
-              priceBadge.innerText = `Prezzo: ${product.price}`;
-              cardBody.appendChild(priceBadge);
-              
-      //buttons delle card
-              const btnContainer = document.createElement("div");
-              btnContainer.className = "btn-group";
-              cardBody.appendChild(btnContainer);
-      
-              const btnModifica = document.createElement("div");
-              btnModifica.className = "btn-group";
-              btnContainer.appendChild(btnModifica);
-              const btnView = document.createElement("button");
-              btnView.type = "button";
-              btnView.className = "btn btn-sm btn-secondary";
-              btnView.innerText = `Modifica`;
-              btnModifica.appendChild(btnView);
-              btnView.addEventListener("click", function () {
-                window.location.assign("details.html?id=" + product._id);
-              });
-              const btnScopri = document.createElement("button");
-              btnScopri.type = "button";
-              btnScopri.className = "btn btn-sm btn-primary";
-              btnScopri.innerText = `Scopri di più`;
-              btnModifica.appendChild(btnScopri);
-              btnScopri.addEventListener("click", function () {
-                window.location.assign("form.html?id=" + product._id);
-              });
-      
-              console.log(product._id);
-            });
-          });
-      });
+cardBox.appendChild(contentRow);
+
+function createNewCard(product) {
+  const col = document.createElement("div");
+  col.className = "col-12 col-md-6 col-lg-3 mb-4";
+  contentRow.appendChild(col);
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+     <div class="card h-100 d-flex flex-column">
+             <img src="${product.imageendPoint}" class="card-img-top" alt="${product.name}" style="max-height: 200px; object-fit: cover;">
+             <div class="card-body d-flex flex-column">
+               <h5 class="card-title">${product.name}</h5>
+               <p id="brand">${product.brand}</p>
+               <p id="price">${product.price}</p>
+               <a href="details.html?id=${product._id}" class="btn btn-primary m-2">Show info</a>
+               <a href="backOffice.html?id=${product._id}" class="btn btn-primary m-2">Modifica</a>
+             </div>
+           </div>
+           `;
+
+  col.appendChild(card);
+}
+
+fetch(endPoint, {
+  headers: {
+    Authorization: `Bearer ${accessKey}`,
+  },
+})
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Errore durante l'invio del prodotto");
+    }
+  })
+  .then((products) => {
+    products.forEach((product) => {
+      createNewCard(product);
+    });
+  })
+  .catch((err) => console.log(err));
